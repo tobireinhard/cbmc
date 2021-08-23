@@ -13,6 +13,8 @@ __CPROVER_bool __CPROVER_is_list();
 __CPROVER_bool __CPROVER_is_dll();
 __CPROVER_bool __CPROVER_is_cyclic_dll();
 __CPROVER_bool __CPROVER_is_sentinel_dll();
+__CPROVER_bool __CPROVER_aws_linked_list_node();
+__CPROVER_bool __CPROVER_separate_aws_linked_list_node_mem();
 __CPROVER_size_t __CPROVER_zero_string_length(const void *);
 __CPROVER_size_t __CPROVER_cstrlen(const char *);
 __CPROVER_size_t __CPROVER_buffer_size(const void *);

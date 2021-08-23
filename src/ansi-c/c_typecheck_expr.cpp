@@ -2366,6 +2366,62 @@ exprt c_typecheck_baset::do_special_functions(
 
     return std::move(is_sentinel_dll_expr);
   }
+  else if(identifier==CPROVER_PREFIX "aws_linked_list_node")
+  {
+    if(expr.arguments().size()!=3)
+    {
+      error().source_location = f_op.source_location();
+      error() << "aws_linked_list_node expects three operands" << eom;
+      throw 0;
+    }
+
+    typecheck_function_call_arguments(expr);
+
+    for(int i=0; i < 3; i++)
+    {
+      if(expr.arguments()[i].type().id() != ID_pointer ||
+        to_pointer_type(expr.arguments()[i].type()).subtype().id() != ID_struct_tag)
+      {
+        error().source_location = expr.arguments()[i].source_location();
+        error() << "aws_linked_list_node expects a struct-pointer operand " << (i+1) << eom;
+        throw 0;
+      }
+    }
+
+    predicate_exprt aws_linked_list_node("aws_linked_list_node");
+    aws_linked_list_node.operands()=expr.arguments();
+    aws_linked_list_node.add_source_location()=source_location;
+
+    return std::move(aws_linked_list_node);
+  }
+  else if(identifier==CPROVER_PREFIX "separate_aws_linked_list_node_mem")
+  {
+    if(expr.arguments().size()!=2)
+    {
+      error().source_location = f_op.source_location();
+      error() << "separate_aws_linked_list_node_mem expects two operands" << eom;
+      throw 0;
+    }
+
+    typecheck_function_call_arguments(expr);
+
+    for(int i=0; i < 2; i++)
+    {
+      if(expr.arguments()[i].type().id() != ID_pointer ||
+        to_pointer_type(expr.arguments()[i].type()).subtype().id() != ID_struct_tag)
+      {
+        error().source_location = expr.arguments()[i].source_location();
+        error() << "separate_aws_linked_list_node_mem expects a struct-pointer operand " << (i+1) << eom;
+        throw 0;
+      }
+    }
+
+    predicate_exprt separate_aws_linked_list_node_mem("separate_aws_linked_list_node_mem");
+    separate_aws_linked_list_node_mem.operands()=expr.arguments();
+    separate_aws_linked_list_node_mem.add_source_location()=source_location;
+
+    return std::move(separate_aws_linked_list_node_mem);
+  }
   else if(identifier==CPROVER_PREFIX "is_cstring")
   {
     if(expr.arguments().size()!=1)
